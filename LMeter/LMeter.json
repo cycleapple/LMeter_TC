@@ -1,8 +1,8 @@
 {
-    "Name": "LMeter",
-    "Author": "Lichie",
-    "Punchline": "Plugin to display ACT combat log data.",
-    "Description": "Renders ACT combat log data as a plugin instead of using a web based overlay",
-    "RepoUrl": "https://github.com/lichie567/LMeter",
-    "Tags": ["UI"]
+  "Name": "LMeter",
+  "Author": "Original by Lichie, modified by Juicefish",
+  "Punchline": "Plugin to display ACT combat log data.",
+  "Description": "Renders ACT combat log data as a plugin instead of using a web based overlay",
+  "RepoUrl": "https://github.com/juicefish/LMeter_TC",
+  "Tags": [ "UI" ]
 }

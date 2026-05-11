@@ -1,12 +1,23 @@
+﻿# LMeter_TC
+
+為 [LMeter](https://github.com/lichie567/LMeter) 搭配 FFXIV繁中版 的 [FFXIVTCLauncher](https://github.com/cycleapple/XIVTCLauncher/) 使用 Dalamud API 12 進行了一些必要更動
+
+測試僅搭配過 [IINACT_TC](https://github.com/juicefish/IINACT_TC) 
+
+理論上可以接上ACT
+
+## 環境
+
+Windows 10
+
+.NET 9.0 Runtime 理論上有用 [FFXIVTCLauncher](https://github.com/cycleapple/XIVTCLauncher/) 應該不需要再安裝
+
+## 安裝
+
+請在Dalamud的第三方插件加入對應 repo url
+
+Dalamud repo url : `https://raw.githubusercontent.com/juicefish/LMeter_TC/main/repo.json`
+
 # LMeter
 
-![build status](https://github.com/lichie567/LMeter/actions/workflows/build-debug.yml/badge.svg?branch=main)
-![release status](https://github.com/lichie567/LMeter/actions/workflows/release.yml/badge.svg)
-
-LMeter is a Dalamud plugin for displaying your ACT combat log data. The purpose of this plugin is to provide a highly customizable dps/hps meter without having to rely on clunky web-based overlays.
-
-## How to Install
-
-LMeter is not available in the standard Dalamud plugin repository and must be installed from my third party repository.
-
-Here is the URL for my plugin repository: `https://raw.githubusercontent.com/lichie567/LMeter/main/repo.json`
+LINK : https://github.com/lichie567/LMeter
