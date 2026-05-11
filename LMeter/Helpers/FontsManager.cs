@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Dalamud.Bindings.ImGui;
+using ImGuiNET;
 using Dalamud.Interface;
 using Dalamud.Interface.FontIdentifier;
 using Dalamud.Interface.ManagedFontAtlas;
@@ -11,14 +11,23 @@ using Dalamud.Plugin.Services;
 
 namespace LMeter.Helpers
 {
-    public class FontData(string name, string path, float size, bool chinese, bool korean, IFontSpec? fontSpec = null)
+    public class FontData
     {
-        public string Name = name;
-        public string Path = path;
-        public float Size = size;
-        public bool Chinese = chinese;
-        public bool Korean = korean;
-        public IFontSpec? FontSpec = fontSpec;
+        public FontData(string name, string path, float size, bool chinese, bool korean, IFontSpec? fontSpec = null)
+        {
+            Name = name;
+            Path = path;
+            Size = size;
+            Chinese = chinese;
+            Korean = korean;
+            FontSpec = fontSpec;
+        }
+        public string Name;
+        public string Path;
+        public float Size;
+        public bool Chinese;
+        public bool Korean;
+        public IFontSpec? FontSpec;
     }
 
     public class FontScope : IDisposable
@@ -40,12 +49,12 @@ namespace LMeter.Helpers
 
     public class FontsManager : IDisposable
     {
-        private readonly Dictionary<string, IFontHandle> m_imGuiFonts = [];
+        private readonly Dictionary<string, IFontHandle> m_imGuiFonts = new Dictionary<string, IFontHandle>();
         private string[] m_fontList;
         private readonly IUiBuilder m_uiBuilder;
 
         public const string DALAMUD_FONT_KEY = "Dalamud Font";
-        public static readonly List<string> DefaultFontKeys = ["Expressway_24", "Expressway_20", "Expressway_16"];
+        public static readonly List<string> DefaultFontKeys = new List<string>() { "Expressway_24", "Expressway_20", "Expressway_16" };
         public static string DefaultBigFontKey => DefaultFontKeys[0];
         public static string DefaultMediumFontKey => DefaultFontKeys[1];
         public static string DefaultSmallFontKey => DefaultFontKeys[2];
@@ -53,7 +62,7 @@ namespace LMeter.Helpers
         public FontsManager(IUiBuilder uiBuilder, IEnumerable<FontData> fonts)
         {
             m_uiBuilder = uiBuilder;
-            m_fontList = [DALAMUD_FONT_KEY];
+            m_fontList = new string[] { DALAMUD_FONT_KEY };
             this.BuildFonts(fonts);
         }
 
@@ -114,7 +123,7 @@ namespace LMeter.Helpers
                 }
             }
 
-            m_fontList = [DALAMUD_FONT_KEY, .. m_imGuiFonts.Keys];
+            m_fontList = new string[] { DALAMUD_FONT_KEY }.Concat(m_imGuiFonts.Keys).ToArray();
         }
 
         public static FontData[] GetDefaultFontData()
@@ -252,7 +261,7 @@ namespace LMeter.Helpers
             }
             catch
             {
-                pluginFonts = [];
+                pluginFonts = new string[0];
             }
 
             foreach (string fontFileNames in pluginFonts)
@@ -330,7 +339,7 @@ namespace LMeter.Helpers
         {
             if (string.IsNullOrEmpty(path))
             {
-                return [];
+                return new string[0];
             }
 
             string[] fonts;
@@ -340,7 +349,7 @@ namespace LMeter.Helpers
             }
             catch
             {
-                fonts = [];
+                fonts = new string[0]; 
             }
 
             return fonts;

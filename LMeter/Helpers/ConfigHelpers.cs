@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
-using Dalamud.Bindings.ImGui;
+using ImGuiNET;
 using Dalamud.Interface.ImGuiNotification;
 using Dalamud.Plugin.Services;
 using LMeter.Config;
@@ -159,14 +159,14 @@ namespace LMeter.Helpers
     /// </summary>
     public class LMeterSerializationBinder : ISerializationBinder
     {
-        private static readonly List<Type> m_configTypes = [typeof(ActConfig)];
+        private static readonly List<Type> m_configTypes = new List<Type>() { typeof(ActConfig) };
         private static readonly Dictionary<string, string> m_typeNameConversions = new()
         {
             { "VisibilityConfig2", "VisibilityConfig" },
         };
 
-        private readonly Dictionary<Type, string> m_typeToName = [];
-        private readonly Dictionary<string, Type> m_nameToType = [];
+        private readonly Dictionary<Type, string> m_typeToName = new Dictionary<Type, string>();
+        private readonly Dictionary<string, Type> m_nameToType = new Dictionary<string, Type>();
 
         public LMeterSerializationBinder()
         {

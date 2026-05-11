@@ -1,5 +1,5 @@
 ﻿using System.Numerics;
-using Dalamud.Bindings.ImGui;
+using ImGuiNET;
 using Newtonsoft.Json;
 
 namespace LMeter.Config
@@ -7,7 +7,7 @@ namespace LMeter.Config
     public class ConfigColor
     {
         [JsonIgnore]
-        private readonly float[] m_colorMapRatios = [-.8f, -.3f, .1f];
+        private readonly float[] m_colorMapRatios = new float[] { -.8f, -.3f, .1f };
 
         // Constructor for deserialization
         public ConfigColor()

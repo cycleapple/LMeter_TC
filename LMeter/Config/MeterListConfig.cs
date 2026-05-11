@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using Dalamud.Bindings.ImGui;
+using ImGuiNET;
 using Dalamud.Interface;
 using Dalamud.Interface.ImGuiNotification;
 using LMeter.Helpers;
@@ -30,7 +30,7 @@ namespace LMeter.Config
 
         public MeterListConfig()
         {
-            this.Meters = [];
+            this.Meters = new List<MeterWindow>();
         }
 
         public IConfigPage GetDefault() => new MeterListConfig();
@@ -85,7 +85,7 @@ namespace LMeter.Config
 
                 ImGui.PushItemWidth(meterTypeWidth);
                 ImGui.SameLine();
-                ImGui.Combo("", ref Unsafe.As<MeterDataType, int>(ref m_meterDataType), ["Damage", "Healing"], 2);
+                ImGui.Combo("", ref Unsafe.As<MeterDataType, int>(ref m_meterDataType), new string[] { "Damage", "Healing" }, 2);
                 ImGui.PopItemWidth();
 
                 ImGui.SameLine();

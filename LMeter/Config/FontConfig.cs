@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
-using Dalamud.Bindings.ImGui;
+using ImGuiNET;
 using Dalamud.Interface;
 using Dalamud.Interface.FontIdentifier;
 using Dalamud.Interface.ImGuiFontChooserDialog;
@@ -50,7 +50,7 @@ namespace LMeter.Config
         public FontConfig()
         {
             RefreshFontList();
-            this.Fonts = [];
+            this.Fonts = new Dictionary<string, FontData>();
 
             foreach (FontData font in FontsManager.GetDefaultFontData())
             {

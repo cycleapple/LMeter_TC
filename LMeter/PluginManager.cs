@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Numerics;
-using Dalamud.Bindings.ImGui;
+using ImGuiNET;
 using Dalamud.Game.Command;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Windowing;
@@ -75,7 +75,7 @@ namespace LMeter
 
         private void Draw()
         {
-            if (Singletons.Get<IObjectTable>().LocalPlayer is null || CharacterState.IsCharacterBusy())
+            if (Singletons.Get<IClientState>().LocalPlayer is null || CharacterState.IsCharacterBusy())
             {
                 return;
             }

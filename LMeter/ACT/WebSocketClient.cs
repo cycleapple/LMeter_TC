@@ -10,8 +10,10 @@ using LMeter.Helpers;
 
 namespace LMeter.Act
 {
-    public class WebSocketClient(ActConfig config) : LogClient(config)
+    public class WebSocketClient : LogClient
     {
+        public WebSocketClient(ActConfig config) : base(config) { }
+
         private ClientWebSocket m_socket = new ClientWebSocket();
         private CancellationTokenSource m_cancellationTokenSource = new CancellationTokenSource();
         private Task? m_receiveTask;

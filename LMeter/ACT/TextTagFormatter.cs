@@ -5,22 +5,25 @@ using System.Text.RegularExpressions;
 
 namespace LMeter.Act
 {
-    public partial class TextTagFormatter(
-        object source,
-        string format,
-        bool emptyIfZero,
-        Dictionary<string, MemberInfo> members
-    )
+    public partial class TextTagFormatter
     {
         [GeneratedRegex(@"\[(\w*)(:k)?\.?(\d+)?\]", RegexOptions.Compiled)]
         private static partial Regex GeneratedRegex();
 
         public static Regex TextTagRegex { get; } = GeneratedRegex();
 
-        private readonly object m_source = source;
-        private readonly string m_format = format;
-        private readonly bool m_emptyIfZero = emptyIfZero;
-        private readonly Dictionary<string, MemberInfo> m_members = members;
+        private readonly object m_source;
+        private readonly string m_format ;
+        private readonly bool m_emptyIfZero;
+        private readonly Dictionary<string, MemberInfo> m_members;
+
+        public TextTagFormatter(object source, string format, bool emptyIfZero, Dictionary<string, MemberInfo> members)
+        {
+            m_source = source;
+            m_format = format;
+            m_emptyIfZero = emptyIfZero;
+            m_members = members;
+        }
 
         public string Evaluate(Match m)
         {

@@ -1,6 +1,6 @@
 using System.Numerics;
 using System.Text.Json.Serialization;
-using Dalamud.Bindings.ImGui;
+using ImGuiNET;
 using LMeter.Helpers;
 
 namespace LMeter.Config
@@ -11,7 +11,7 @@ namespace LMeter.Config
         public bool Active { get; set; }
         public string Name => "Bars";
 
-        private static readonly string[] m_jobIconStyleOptions = ["Style 1", "Style 2"];
+        private static readonly string[] m_jobIconStyleOptions = new string[] { "Style 1", "Style 2" };
 
         public int BarHeightType = 0;
         public int BarCount = 8;
@@ -122,7 +122,7 @@ namespace LMeter.Config
 
                 ImGui.NewLine();
                 ImGui.DragFloat("Bar Fill Height (% of Bar Height)", ref this.BarFillHeight, .1f, 0, 1f);
-                ImGui.Combo("Bar Fill Direction", ref this.BarFillDirection, ["Up", "Down"], 2);
+                ImGui.Combo("Bar Fill Direction", ref this.BarFillDirection, new string[] { "Up", "Down" }, 2);
                 DrawHelpers.DrawColorSelector("Bar Background Color", this.BarBackgroundColor);
 
                 ImGui.NewLine();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using Dalamud.Bindings.ImGui;
+using ImGuiNET;
 using Dalamud.Interface;
 using Dalamud.Interface.ImGuiNotification;
 using LMeter.Act.DataStructures;
@@ -12,9 +12,17 @@ using Newtonsoft.Json;
 
 namespace LMeter.Config
 {
-    public class TextListConfig<T>(string name = "Texts") : IConfigPage
+    public class TextListConfig<T> : IConfigPage
         where T : IActData<T>
     {
+        private readonly string _name;
+
+        public TextListConfig(string name = "Texts")
+        {
+            _name = name;
+            NameInternal = name;
+        }
+
         [JsonIgnore]
         private string m_textInput = string.Empty;
 
@@ -24,9 +32,9 @@ namespace LMeter.Config
         [JsonIgnore]
         public bool Active { get; set; }
 
-        public string NameInternal = name;
+        public string NameInternal;
         public string Name => NameInternal;
-        public List<Text> Texts { get; init; } = [];
+        public List<Text> Texts { get; init; } = new List<Text>();
 
         public IConfigPage GetDefault()
         {
@@ -89,7 +97,7 @@ namespace LMeter.Config
 
                         if (ImGui.TableSetColumnIndex(2))
                         {
-                            string[] anchorOptions = ["Bar", .. this.Texts.Select(x => x.Name)];
+                            string[] anchorOptions = new[] { "Bar" }.Concat(this.Texts.Select(x => x.Name)).ToArray();
                             ImGui.PushItemWidth(anchorComboWidth);
                             ImGui.SetCursorPosY(ImGui.GetCursorPosY() + 1f);
                             if (
@@ -307,9 +315,13 @@ namespace LMeter.Config
         }
     }
 
-    public class Text(string name = "Text")
+    public class Text
     {
-        public string Name = name;
+        public Text(string name = "Text")
+        {
+            Name = name;
+        }
+        public string Name;
         public bool Enabled = true;
         public string TextFormat = "";
         public Vector2 TextOffset = new();

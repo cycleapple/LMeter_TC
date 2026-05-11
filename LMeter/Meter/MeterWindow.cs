@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using Dalamud.Bindings.ImGui;
+using ImGuiNET;
 using Dalamud.Plugin.Services;
 using LMeter.Act;
 using LMeter.Act.DataStructures;
@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 
 namespace LMeter.Meter
 {
-    public class MeterWindow(string name) : IConfigurable
+    public class MeterWindow : IConfigurable
     {
         [JsonIgnore]
         private bool m_lastFrameWasUnlocked = false;
@@ -57,11 +57,15 @@ namespace LMeter.Meter
         private DateTime? m_lastSortedTimestamp = null;
 
         [JsonIgnore]
-        private List<Combatant> m_lastSortedCombatants = [];
+        private List<Combatant> m_lastSortedCombatants = new List<Combatant>();
 
         [JsonIgnore]
         public string Id { get; init; } = $"LMeter_MeterWindow_{Guid.NewGuid()}";
-        public string Name { get; set; } = name;
+        public MeterWindow(string name)
+        {
+            Name = name;
+        }
+        public string Name { get; set; }
         public bool Enabled = true;
         public GeneralConfig GeneralConfig { get; set; } = new GeneralConfig();
         public HeaderConfig HeaderConfig { get; set; } = new HeaderConfig();
@@ -153,7 +157,7 @@ namespace LMeter.Meter
 
         public void Clear()
         {
-            m_lastSortedCombatants = [];
+            m_lastSortedCombatants = new List<Combatant> { };
             m_lastSortedTimestamp = null;
         }
 
@@ -223,7 +227,7 @@ namespace LMeter.Meter
             {
                 m_eventIndex = index;
                 m_lastSortedTimestamp = null;
-                m_lastSortedCombatants = [];
+                m_lastSortedCombatants = new List<Combatant>();
                 m_scrollPosition = 0;
             }
 
@@ -368,7 +372,7 @@ namespace LMeter.Meter
 
         private static List<Text> GetColumnHeaderTexts(List<Text> texts, BarConfig config)
         {
-            List<Text> newTexts = [.. texts.Select(x => x.Clone())];
+            List<Text> newTexts = texts.Select(x => x.Clone()).ToList();
             foreach (Text text in newTexts)
             {
                 text.TextFormat = text.Name;
@@ -454,7 +458,7 @@ namespace LMeter.Meter
             {
                 // We don't want to corrupt the cache. The entire logic past this point mutates the sorted Act combatants instead of using a rendering cache
                 // This has the issue that some settings can't behave properly and or don't update till the following combat update/fight
-                List<Combatant> sortedCombatants = [.. this.GetSortedCombatants(actEvent, this.GeneralConfig.DataType)];
+                List<Combatant> sortedCombatants = this.GetSortedCombatants(actEvent, this.GeneralConfig.DataType).ToList();
 
                 // add rank to the sorted combatants, with this we have the real rank of the player
                 int rank = 1;
@@ -479,7 +483,7 @@ namespace LMeter.Meter
                 }
 
                 int currentIndex = 0;
-                string playerName = Singletons.Get<IPlayerState>().CharacterName ?? "YOU";
+                string playerName = Singletons.Get<IClientState>().LocalPlayer?.Name.ToString() ?? "YOU";
                 if (sortedCombatants.Count > barCount)
                 {
                     int unclampedScroll = m_scrollPosition;
@@ -803,7 +807,7 @@ namespace LMeter.Meter
                 return m_lastSortedCombatants;
             }
 
-            List<Combatant> sortedCombatants = [.. actEvent.Combatants.Values];
+            List<Combatant> sortedCombatants = actEvent.Combatants.Values.ToList();
             sortedCombatants.Sort(
                 (x, y) =>
                 {

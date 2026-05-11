@@ -1,13 +1,20 @@
-using Dalamud.Bindings.ImGui;
+using ImGuiNET;
 using LMeter.Helpers;
 
 namespace LMeter.Config
 {
-    public class RoundingOptions(bool enabled = false, float rounding = 10, RoundingFlag flag = RoundingFlag.All)
+    public class RoundingOptions
     {
-        public bool Enabled = enabled;
-        public float Rounding = rounding;
-        public RoundingFlag Flag = flag;
+        public bool Enabled;
+        public float Rounding;
+        public RoundingFlag Flag;
+
+        public RoundingOptions(bool enabled = false, float rounding = 10, RoundingFlag flag = RoundingFlag.All)
+        {
+            Enabled = enabled;
+            Rounding = rounding;
+            Flag = flag;
+        }
 
         public ImDrawFlags GetImDrawFlag() =>
             this.Flag switch

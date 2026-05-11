@@ -3,8 +3,12 @@ using System;
 namespace LMeter.Act
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-    public class TextTagAttribute(string tagName = "") : Attribute
+    public class TextTagAttribute : Attribute
     {
-        string TagName { get; } = tagName;
+        public TextTagAttribute(string tagName = "")
+        {
+            TagName = tagName;
+        }
+        string TagName { get; }
     }
 }

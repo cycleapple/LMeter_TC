@@ -3,11 +3,17 @@ using LMeter.Helpers;
 
 namespace LMeter.Act
 {
-    public class LazyString<T>(Func<T> getInput, Func<T, string> converter)
+    public class LazyString<T>
     {
+        public LazyString(Func<T> getInput, Func<T, string> converter)
+        {
+            m_getInput = getInput;
+            m_converter = converter;
+        }
+
         private string m_value = string.Empty;
-        private readonly Func<T, string> m_converter = converter;
-        private readonly Func<T> m_getInput = getInput;
+        private readonly Func<T, string> m_converter;
+        private readonly Func<T> m_getInput;
 
         public bool WasGenerated { get; private set; }
 

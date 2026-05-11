@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using Dalamud.Bindings.ImGui;
+using ImGuiNET;
 using Dalamud.Interface;
 using LMeter.Act;
 using LMeter.Helpers;
@@ -14,10 +14,10 @@ namespace LMeter.Config
     public class VisibilityConfig : IConfigPage
     {
         [JsonIgnore]
-        public static readonly string[] OperatorOptions = ["AND", "OR", "XOR"];
+        public static readonly string[] OperatorOptions = new string[] { "AND", "OR", "XOR" };
 
         [JsonIgnore]
-        public static readonly string[] ResultOptions = ["Show", "Hide"];
+        public static readonly string[] ResultOptions = new string[] { "Show", "Hide" };
 
         [JsonIgnore]
         private int m_swapX = -1;
@@ -33,7 +33,7 @@ namespace LMeter.Config
 
         public string Name => "Visibility";
 
-        public List<VisibilityCondition> VisibilityConditions = [];
+        public List<VisibilityCondition> VisibilityConditions = new List<VisibilityCondition>();
         public bool Initialized = false;
         public bool AlwaysHide = false;
         public bool ShouldClip = true;
@@ -43,7 +43,7 @@ namespace LMeter.Config
 
         public VisibilityConfig()
         {
-            this.VisibilityConditions = [new()];
+            this.VisibilityConditions =  new List<VisibilityCondition>();
         }
 
         public IConfigPage GetDefault() => new VisibilityConfig();
@@ -355,7 +355,7 @@ namespace LMeter.Config
 
         public JobType ShowForJobTypes = JobType.All;
         public string CustomJobString = string.Empty;
-        public List<Job> CustomJobList = [];
+        public List<Job> CustomJobList = new List<Job>();
 
         public ZoneType Zone;
 
@@ -451,7 +451,7 @@ namespace LMeter.Config
                     )
                     {
                         IEnumerable<string> jobStrings = m_customJobInput.Split(',').Select(j => j.Trim());
-                        List<Job> jobList = [];
+                        List<Job> jobList = new List<Job>();
                         foreach (string j in jobStrings)
                         {
                             if (Enum.TryParse(j, true, out Job parsed))

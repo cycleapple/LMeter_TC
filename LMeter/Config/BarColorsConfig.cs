@@ -1,6 +1,6 @@
 using System.Numerics;
 using System.Text.Json.Serialization;
-using Dalamud.Bindings.ImGui;
+using ImGuiNET;
 using LMeter.Helpers;
 
 namespace LMeter.Config

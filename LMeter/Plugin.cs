@@ -25,7 +25,6 @@ namespace LMeter
 
         public Plugin(
             IClientState clientState,
-            IPlayerState playerState,
             ICommandManager commandManager,
             ICondition condition,
             IDalamudPluginInterface pluginInterface,
@@ -35,7 +34,6 @@ namespace LMeter
             IJobGauges jobGauges,
             IObjectTable objectTable,
             IPartyList partyList,
-            ITargetManager targetManager,
             IChatGui chatGui,
             IPluginLog logger,
             ITextureProvider textureProvider,
@@ -50,7 +48,6 @@ namespace LMeter
 
             // Register Dalamud APIs
             Singletons.Register(clientState);
-            Singletons.Register(playerState);
             Singletons.Register(commandManager);
             Singletons.Register(condition);
             Singletons.Register(pluginInterface);
@@ -60,7 +57,6 @@ namespace LMeter
             Singletons.Register(jobGauges);
             Singletons.Register(objectTable);
             Singletons.Register(partyList);
-            Singletons.Register(targetManager);
             Singletons.Register(chatGui);
             Singletons.Register(pluginInterface.UiBuilder);
             Singletons.Register(logger);

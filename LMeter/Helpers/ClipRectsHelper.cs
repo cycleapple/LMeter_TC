@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using Dalamud.Bindings.ImGui;
+using ImGuiNET;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 
@@ -12,8 +12,8 @@ namespace LMeter.Helpers
     {
         // these are ordered by priority, if 2 game windows are on top of a DelvUI element
         // the one that comes first in this list is the one that will be clipped around
-        internal static List<string> AddonNames =
-        [
+        internal static List<string> AddonNames = new List<string>()
+        {
             "ContextMenu",
             "ItemDetail", // tooltip
             "ActionDetail", // tooltip
@@ -135,9 +135,9 @@ namespace LMeter.Helpers
             "ColorPicker",
             "PlayGuide",
             "SelectYesno",
-        ];
+        };
 
-        private readonly List<ClipRect> m_clipRects = [];
+        private readonly List<ClipRect> m_clipRects = new List<ClipRect>();
 
         public unsafe void Update()
         {

@@ -1,30 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Dalamud.Game.ClientState.Conditions;
+﻿using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace LMeter.Helpers
 {
     public static class CharacterState
     {
-        private static readonly uint[] m_goldSaucerIds = [144, 388, 389, 390, 391, 579, 792, 899, 941];
-        private static readonly ushort[] m_houseIds = [
+        private static readonly uint[] m_goldSaucerIds = new uint[] { 144, 388, 389, 390, 391, 579, 792, 899, 941 };
+        private static readonly ushort[] m_houseIds = new ushort[]
+        {
             // Small, Medium, Large, Chamber, Apartment
             282, 283, 284, 384, 608, // Mist
             342, 343, 344, 385, 609, // Lavender Beds
             345, 346, 347, 386, 610, // Goblet
             649, 650, 651, 652, 655, // Shirogane
             980, 981, 982, 983, 999, // Empyreum 
-        ];
+        };
 
         public static string CharacterName { get; private set; } = string.Empty;
 
         public static void UpdateCurrentCharacter()
         {
-            string? playerName = Singletons.Get<IPlayerState>().CharacterName;
+            string? playerName = Singletons.Get<IClientState>().LocalPlayer?.Name.ToString();
             if (!string.IsNullOrEmpty(playerName))
             {
                 CharacterName = playerName;
@@ -63,7 +65,7 @@ namespace LMeter.Helpers
 
         public static Job GetCharacterJob()
         {
-            IPlayerCharacter? player = Singletons.Get<IObjectTable>().LocalPlayer;
+            IPlayerCharacter? player = Singletons.Get<IClientState>().LocalPlayer;
             if (player is null)
             {
                 return Job.UKN;
