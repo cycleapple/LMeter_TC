@@ -3,6 +3,7 @@
   "Author": "Original by Lichie, modified by Juicefish",
   "Punchline": "Plugin to display ACT combat log data.",
   "Description": "Renders ACT combat log data as a plugin instead of using a web based overlay",
+  "InternalName": "LMeter",
   "RepoUrl": "https://github.com/juicefish/LMeter_TC",
   "Tags": [ "UI" ]
 }

@@ -1,4 +1,4 @@
-using ImGuiNET;
+using Dalamud.Bindings.ImGui;
 using LMeter.Helpers;
 
 namespace LMeter.Config

@@ -10,7 +10,7 @@
 
 Windows 10
 
-.NET 9.0 Runtime 理論上有用 [FFXIVTCLauncher](https://github.com/cycleapple/XIVTCLauncher/) 應該不需要再安裝
+[.NET 9.0 Runtime](https://dotnet.microsoft.com/zh-tw/download/dotnet/9.0) 理論上有用 [FFXIVTCLauncher](https://github.com/cycleapple/XIVTCLauncher/) 應該不需要再安裝
 
 ## 安裝
 

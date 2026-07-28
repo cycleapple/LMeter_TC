@@ -15,7 +15,7 @@ namespace LMeter
     {
         public const string CONFIG_FILE = "LMeter.json";
 
-        public static string Version { get; private set; } = "0.4.4.0";
+        public static string Version { get; private set; } = "1.13.0.1";
         public static string ConfigFileDir { get; private set; } = "";
         public static string ConfigFilePath { get; private set; } = "";
         public static string AssemblyFileDir { get; private set; } = "";
