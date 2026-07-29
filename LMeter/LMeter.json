@@ -1,9 +1,9 @@
 {
   "Name": "LMeter",
   "Author": "Original by Lichie, modified by Juicefish",
-  "Punchline": "Plugin to display ACT combat log data.",
-  "Description": "Renders ACT combat log data as a plugin instead of using a web based overlay",
+  "Punchline": "在遊戲內顯示 ACT 戰鬥統計。",
+  "Description": "直接以插件介面顯示 ACT 戰鬥紀錄資料，不需使用網頁式 Overlay。",
   "InternalName": "LMeter",
-  "RepoUrl": "https://github.com/juicefish/LMeter_TC",
+  "RepoUrl": "https://github.com/cycleapple/LMeter_TC/tree/api13-tw",
   "Tags": [ "UI" ]
 }

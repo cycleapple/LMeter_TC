@@ -2,9 +2,9 @@
     <!-- Assembly Configuration -->
     <PropertyGroup>
         <AssemblyName>LMeter</AssemblyName>
-        <AssemblyVersion>1.13.0.1</AssemblyVersion>
-        <FileVersion>1.13.0.1</FileVersion>
-        <InformationalVersion>0.4.4.0.TC.API13.0.1</InformationalVersion>
+        <AssemblyVersion>1.13.0.2</AssemblyVersion>
+        <FileVersion>1.13.0.2</FileVersion>
+        <InformationalVersion>0.4.4.0.TC.API13.0.2</InformationalVersion>
     </PropertyGroup>
 
 	<!-- Build Configuration -->
@@ -22,7 +22,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<DalamudLibPath>$(appdata)\FFXIVSimpleLauncher\Dalamud\Injector\</DalamudLibPath>
+		<DalamudLibPath Condition="'$(DalamudLibPath)' == ''">$(appdata)\FFXIVSimpleLauncher\Dalamud\Injector\</DalamudLibPath>
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
