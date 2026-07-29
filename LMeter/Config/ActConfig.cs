@@ -37,12 +37,12 @@ namespace LMeter.Config
             if (ImGui.BeginChild($"##{this.Name}", new Vector2(size.X, size.Y), border))
             {
                 int currentClientType = this.ClientType;
-                ImGui.Text("ACT Client Type:");
+                ImGui.Text("ACT 連線類型：");
                 ImGui.RadioButton("WebSocket", ref this.ClientType, 0);
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.SetTooltip(
-                        "Use this option if you are using the standard standalone Advanced Combat Tracker program."
+                        "使用標準獨立版 Advanced Combat Tracker 時請選擇此項。"
                     );
                 }
 
@@ -50,7 +50,7 @@ namespace LMeter.Config
                 ImGui.RadioButton("IINACT IPC", ref this.ClientType, 1);
                 if (ImGui.IsItemHovered())
                 {
-                    ImGui.SetTooltip("Use this option if you are using the IINACT dalamud plugin.");
+                    ImGui.SetTooltip("使用 Dalamud 的 IINACT 插件時請選擇此項。");
                 }
 
                 if (currentClientType != this.ClientType)
@@ -59,12 +59,12 @@ namespace LMeter.Config
                 }
 
                 Vector2 buttonSize = new(40, 0);
-                ImGui.Text($"ACT Status: {Singletons.Get<LogClient>().Status}");
+                ImGui.Text($"ACT 狀態：{GetLocalizedStatus(Singletons.Get<LogClient>().Status)}");
                 if (this.ClientType == 0)
                 {
                     ImGui.InputTextWithHint(
-                        "ACT Websocket Address",
-                        $"Default: '{SOCKET_ADDRESS}'",
+                        "ACT WebSocket 位址",
+                        $"預設：'{SOCKET_ADDRESS}'",
                         ref this.ActSocketAddress,
                         64
                     );
@@ -74,39 +74,39 @@ namespace LMeter.Config
                     string.Empty,
                     FontAwesomeIcon.Sync,
                     () => Singletons.Get<LogClient>().Reset(),
-                    "Reconnect",
+                    "重新連線",
                     buttonSize
                 );
 
                 ImGui.SameLine();
                 ImGui.SetCursorPosY(ImGui.GetCursorPosY() - 1f);
-                ImGui.Text("Retry ACT Connection");
+                ImGui.Text("重新嘗試 ACT 連線");
 
                 ImGui.NewLine();
                 ImGui.PushItemWidth(30);
-                ImGui.InputInt("Number of Encounters to save", ref this.EncounterHistorySize, 0, 0);
+                ImGui.InputInt("保留的戰鬥紀錄數量", ref this.EncounterHistorySize, 0, 0);
                 ImGui.PopItemWidth();
 
                 ImGui.NewLine();
-                ImGui.Checkbox("Automatically attempt to reconnect if connection fails", ref this.AutoReconnect);
+                ImGui.Checkbox("連線失敗時自動嘗試重新連線", ref this.AutoReconnect);
                 if (this.AutoReconnect)
                 {
                     DrawHelpers.DrawNestIndicator(1);
                     ImGui.PushItemWidth(30);
-                    ImGui.InputInt("Seconds between reconnect attempts", ref this.ReconnectDelay, 0, 0);
+                    ImGui.InputInt("重新連線嘗試間隔（秒）", ref this.ReconnectDelay, 0, 0);
                     ImGui.PopItemWidth();
                 }
 
-                ImGui.Checkbox("Log connection errors", ref this.LogConnectionErrors);
+                ImGui.Checkbox("記錄連線錯誤", ref this.LogConnectionErrors);
 
                 ImGui.NewLine();
-                ImGui.Checkbox("Clear ACT when clearing LMeter", ref this.ClearAct);
-                ImGui.Checkbox("Force ACT to end encounter after combat", ref this.AutoEnd);
+                ImGui.Checkbox("清除 LMeter 時一併清除 ACT", ref this.ClearAct);
+                ImGui.Checkbox("脫離戰鬥後強制 ACT 結束本次戰鬥", ref this.AutoEnd);
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.SetTooltip(
-                        "It is recommended to disable ACT Command Sounds if you use this feature.\n"
-                            + "The option can be found in ACT under Options -> Sound Settings."
+                        "使用此功能時，建議停用 ACT 的指令音效。\n"
+                            + "可在 ACT 的「Options → Sound Settings」中調整。"
                     );
                 }
 
@@ -114,7 +114,7 @@ namespace LMeter.Config
                 {
                     DrawHelpers.DrawNestIndicator(1);
                     ImGui.PushItemWidth(30);
-                    ImGui.InputInt("Seconds delay after combat", ref this.AutoEndDelay, 0, 0);
+                    ImGui.InputInt("脫離戰鬥後延遲（秒）", ref this.AutoEndDelay, 0, 0);
                     ImGui.PopItemWidth();
                 }
 
@@ -128,7 +128,7 @@ namespace LMeter.Config
                 );
                 ImGui.SameLine();
                 ImGui.SetCursorPosY(ImGui.GetCursorPosY() - 1f);
-                ImGui.Text("Force End Combat");
+                ImGui.Text("強制結束戰鬥");
 
                 DrawHelpers.DrawButton(
                     string.Empty,
@@ -139,10 +139,20 @@ namespace LMeter.Config
                 );
                 ImGui.SameLine();
                 ImGui.SetCursorPosY(ImGui.GetCursorPosY() - 1f);
-                ImGui.Text("Clear LMeter");
+                ImGui.Text("清除 LMeter");
             }
 
             ImGui.EndChild();
         }
+
+        private static string GetLocalizedStatus(ConnectionStatus status) => status switch
+        {
+            ConnectionStatus.Connected => "已連線",
+            ConnectionStatus.Connecting => "連線中",
+            ConnectionStatus.NotConnected => "未連線",
+            ConnectionStatus.ShuttingDown => "正在關閉",
+            ConnectionStatus.ConnectionFailed => "連線失敗",
+            _ => status.ToString(),
+        };
     }
 }

@@ -14,10 +14,10 @@ namespace LMeter.Config
     public class VisibilityConfig : IConfigPage
     {
         [JsonIgnore]
-        public static readonly string[] OperatorOptions = new string[] { "AND", "OR", "XOR" };
+        public static readonly string[] OperatorOptions = new string[] { "且", "或", "互斥或" };
 
         [JsonIgnore]
-        public static readonly string[] ResultOptions = new string[] { "Show", "Hide" };
+        public static readonly string[] ResultOptions = new string[] { "顯示", "隱藏" };
 
         [JsonIgnore]
         private int m_swapX = -1;
@@ -31,7 +31,7 @@ namespace LMeter.Config
         [JsonIgnore]
         public bool Active { get; set; }
 
-        public string Name => "Visibility";
+        public string Name => "顯示條件";
 
         public List<VisibilityCondition> VisibilityConditions = new List<VisibilityCondition>();
         public bool Initialized = false;
@@ -91,15 +91,15 @@ namespace LMeter.Config
             }
 
             float posY = ImGui.GetCursorPosY();
-            ImGui.Checkbox("Always Hide", ref this.AlwaysHide);
-            ImGui.Checkbox("Hide When Covered by Game UI Elements", ref this.ShouldClip);
-            ImGui.Checkbox("Always Show When Hovered by Mouse", ref this.ShowOnMouseover);
-            ImGui.Checkbox("Always Hide When Not Connected to ACT", ref this.HideIfNotConnected);
+            ImGui.Checkbox("永遠隱藏", ref this.AlwaysHide);
+            ImGui.Checkbox("被遊戲介面遮住時隱藏", ref this.ShouldClip);
+            ImGui.Checkbox("滑鼠指向時永遠顯示", ref this.ShowOnMouseover);
+            ImGui.Checkbox("未連線至 ACT 時永遠隱藏", ref this.HideIfNotConnected);
             size = new(size.X, size.Y - (ImGui.GetCursorPosY() - posY));
 
             if (ImGui.BeginChild("##VisibilityOptionConfig", new Vector2(size.X, size.Y), border))
             {
-                ImGui.Text("Visibility Conditions");
+                ImGui.Text("顯示條件");
 
                 ImGuiTableFlags tableFlags =
                     ImGuiTableFlags.RowBg
@@ -121,10 +121,10 @@ namespace LMeter.Config
                     Vector2 buttonSize = new(30, 0);
                     int buttonCount = this.VisibilityConditions.Count > 1 ? 5 : 3;
                     float actionsWidth = buttonSize.X * buttonCount + padX * (buttonCount - 1);
-                    ImGui.TableSetupColumn("Operator", ImGuiTableColumnFlags.WidthFixed, 60, 0);
-                    ImGui.TableSetupColumn("Invert", ImGuiTableColumnFlags.WidthFixed, 35, 1);
-                    ImGui.TableSetupColumn("Condition Type", ImGuiTableColumnFlags.WidthStretch, 0, 2);
-                    ImGui.TableSetupColumn("Actions", ImGuiTableColumnFlags.WidthFixed, actionsWidth, 3);
+                    ImGui.TableSetupColumn("運算", ImGuiTableColumnFlags.WidthFixed, 60, 0);
+                    ImGui.TableSetupColumn("反向", ImGuiTableColumnFlags.WidthFixed, 35, 1);
+                    ImGui.TableSetupColumn("條件類型", ImGuiTableColumnFlags.WidthStretch, 0, 2);
+                    ImGui.TableSetupColumn("操作", ImGuiTableColumnFlags.WidthFixed, actionsWidth, 3);
                     ImGui.TableSetupScrollFreeze(0, 1);
                     ImGui.TableHeadersRow();
 
@@ -142,7 +142,7 @@ namespace LMeter.Config
                         string.Empty,
                         FontAwesomeIcon.Plus,
                         () => this.AddOption(),
-                        "New Condition",
+                        "新增條件",
                         buttonSize
                     );
                     ImGui.SameLine();
@@ -150,7 +150,7 @@ namespace LMeter.Config
                         string.Empty,
                         FontAwesomeIcon.Download,
                         () => this.ImportOption(),
-                        "Import Condition",
+                        "匯入條件",
                         buttonSize
                     );
 
@@ -172,14 +172,14 @@ namespace LMeter.Config
                     }
                 }
 
-                ImGui.Text("Action if result is true:");
+                ImGui.Text("條件成立時：");
                 ImGui.SameLine();
                 ImGui.PushItemWidth(100);
                 ImGui.SetCursorPos(ImGui.GetCursorPos() + new Vector2(0f, -2f));
                 ImGui.Combo("##ResultCombo", ref this.ResultOption, ResultOptions, ResultOptions.Length);
                 ImGui.PopItemWidth();
 
-                ImGui.Text($"Edit Condition {m_selectedIndex + 1}");
+                ImGui.Text($"編輯條件 {m_selectedIndex + 1}");
                 if (
                     ImGui.BeginChild(
                         "##ConditionEdit",
@@ -211,7 +211,7 @@ namespace LMeter.Config
                 ImGui.SetCursorPosY(ImGui.GetCursorPosY() + (i == 0 ? 3f : 1f));
                 if (i == 0)
                 {
-                    ImGui.Text("IF");
+                    ImGui.Text("若");
                 }
                 else
                 {
@@ -235,9 +235,7 @@ namespace LMeter.Config
             if (ImGui.TableSetColumnIndex(2))
             {
                 ImGui.Text(
-                    condition.ConditionType == VisibilityConditionType.Zone
-                        ? $"Zone: {condition.Zone}"
-                        : $"{condition.ConditionType}"
+                    VisibilityCondition.GetConditionDescription(condition)
                 );
             }
 
@@ -249,7 +247,7 @@ namespace LMeter.Config
                     string.Empty,
                     FontAwesomeIcon.Pen,
                     () => this.SelectOption(i),
-                    "Edit Condition",
+                    "編輯條件",
                     buttonSize
                 );
 
@@ -260,7 +258,7 @@ namespace LMeter.Config
                         string.Empty,
                         FontAwesomeIcon.ArrowUp,
                         () => this.Swap(i, i - 1),
-                        "Move Up",
+                        "上移",
                         buttonSize
                     );
 
@@ -269,7 +267,7 @@ namespace LMeter.Config
                         string.Empty,
                         FontAwesomeIcon.ArrowDown,
                         () => this.Swap(i, i + 1),
-                        "Move Down",
+                        "下移",
                         buttonSize
                     );
                 }
@@ -279,7 +277,7 @@ namespace LMeter.Config
                     string.Empty,
                     FontAwesomeIcon.Upload,
                     () => this.ExportOption(i),
-                    "Export Condition",
+                    "匯出條件",
                     buttonSize
                 );
                 if (this.VisibilityConditions.Count > 1)
@@ -289,7 +287,7 @@ namespace LMeter.Config
                         string.Empty,
                         FontAwesomeIcon.Trash,
                         () => this.RemoveOption(i),
-                        "Remove Condition",
+                        "移除條件",
                         buttonSize
                     );
                 }
@@ -379,54 +377,54 @@ namespace LMeter.Config
         public void DrawConfig(Vector2 size, float padX, float padY)
         {
             ImGui.RadioButton(
-                "Always True",
+                "永遠成立",
                 ref Unsafe.As<VisibilityConditionType, int>(ref this.ConditionType),
                 (int)VisibilityConditionType.AlwaysTrue
             );
             ImGui.RadioButton(
-                "In Combat",
+                "戰鬥中",
                 ref Unsafe.As<VisibilityConditionType, int>(ref this.ConditionType),
                 (int)VisibilityConditionType.InCombat
             );
             ImGui.RadioButton(
-                "In Duty",
+                "任務中",
                 ref Unsafe.As<VisibilityConditionType, int>(ref this.ConditionType),
                 (int)VisibilityConditionType.InDuty
             );
             ImGui.RadioButton(
-                "Performing",
+                "演奏中",
                 ref Unsafe.As<VisibilityConditionType, int>(ref this.ConditionType),
                 (int)VisibilityConditionType.Performing
             );
 
             ImGui.RadioButton(
-                "In Zone",
+                "位於指定區域",
                 ref Unsafe.As<VisibilityConditionType, int>(ref this.ConditionType),
                 (int)VisibilityConditionType.Zone
             );
             if (this.ConditionType == VisibilityConditionType.Zone)
             {
                 DrawHelpers.DrawNestIndicator(1);
-                ImGui.RadioButton("Gold Saucer", ref Unsafe.As<ZoneType, int>(ref this.Zone), (int)ZoneType.GoldSaucer);
+                ImGui.RadioButton("金碟遊樂場", ref Unsafe.As<ZoneType, int>(ref this.Zone), (int)ZoneType.GoldSaucer);
                 DrawHelpers.DrawNestIndicator(1);
                 ImGui.RadioButton(
-                    "Player House",
+                    "玩家房屋",
                     ref Unsafe.As<ZoneType, int>(ref this.Zone),
                     (int)ZoneType.PlayerHouse
                 );
             }
 
             ImGui.RadioButton(
-                "Job",
+                "職業",
                 ref Unsafe.As<VisibilityConditionType, int>(ref this.ConditionType),
                 (int)VisibilityConditionType.Job
             );
             if (this.ConditionType == VisibilityConditionType.Job)
             {
                 DrawHelpers.DrawNestIndicator(1);
-                string[] jobTypeOptions = Enum.GetNames<JobType>();
+                string[] jobTypeOptions = ["全部", "自訂", "防護職業", "魔法遠程職業", "近戰職業", "物理遠程職業", "治療職業", "戰鬥精英", "魔法導師", "戰鬥職業", "生產職業", "能工巧匠", "大地使者"];
                 ImGui.Combo(
-                    "Job Select",
+                    "選擇職業類型",
                     ref Unsafe.As<JobType, int>(ref this.ShowForJobTypes),
                     jobTypeOptions,
                     jobTypeOptions.Length
@@ -442,8 +440,8 @@ namespace LMeter.Config
                     DrawHelpers.DrawNestIndicator(1);
                     if (
                         ImGui.InputTextWithHint(
-                            "Custom Job List",
-                            "Comma Separated List (ex: WAR, SAM, BLM)",
+                            "自訂職業清單",
+                            "以逗號分隔（例如：WAR, SAM, BLM）",
                             ref m_customJobInput,
                             100,
                             ImGuiInputTextFlags.EnterReturnsTrue
@@ -473,5 +471,21 @@ namespace LMeter.Config
                 }
             }
         }
+
+        internal static string GetConditionDescription(VisibilityCondition condition) => condition.ConditionType switch
+        {
+            VisibilityConditionType.AlwaysTrue => "永遠成立",
+            VisibilityConditionType.InCombat => "戰鬥中",
+            VisibilityConditionType.InDuty => "任務中",
+            VisibilityConditionType.Performing => "演奏中",
+            VisibilityConditionType.Zone => condition.Zone switch
+            {
+                ZoneType.GoldSaucer => "區域：金碟遊樂場",
+                ZoneType.PlayerHouse => "區域：玩家房屋",
+                _ => "指定區域",
+            },
+            VisibilityConditionType.Job => "職業",
+            _ => condition.ConditionType.ToString(),
+        };
     }
 }

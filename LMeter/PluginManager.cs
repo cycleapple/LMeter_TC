@@ -59,11 +59,11 @@ namespace LMeter
                 new CommandInfo(PluginCommand)
                 {
                     HelpMessage =
-                        "Opens the LMeter configuration window.\n"
-                        + "/lm end → Ends current Act Encounter.\n"
-                        + "/lm clear → Clears all Act encounter log data.\n"
-                        + "/lm ct [number] → Toggles clickthrough status for the given profile.\n"
-                        + "/lm toggle [number] → Toggles visibility for the given profile.",
+                "開啟 LMeter 設定視窗。\n"
+                    + "/lm end → 結束目前的 ACT 戰鬥紀錄。\n"
+                    + "/lm clear → 清除所有 ACT 戰鬥紀錄資料。\n"
+                    + "/lm ct [數字] → 切換指定設定檔的點擊穿透。\n"
+                    + "/lm toggle [數字] → 切換指定設定檔的顯示狀態。",
                     ShowInHelp = true,
                 }
             );

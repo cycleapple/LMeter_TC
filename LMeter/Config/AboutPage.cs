@@ -10,7 +10,7 @@ namespace LMeter.Config
         [JsonIgnore]
         public bool Active { get; set; }
 
-        public string Name => "Changelog";
+        public string Name => "更新紀錄";
 
         public IConfigPage GetDefault() => new AboutPage();
 
@@ -40,7 +40,7 @@ namespace LMeter.Config
                 // ImGui.SetCursorPosY(ImGui.GetCursorPosY() + headerSize.Y);
                 // DrawHelpers.DrawSpacing(1);
 
-                ImGui.Text("Changelog");
+            ImGui.Text("更新紀錄");
                 Vector2 changeLogSize = new(size.X - padX * 2, size.Y - ImGui.GetCursorPosY() - padY - 30);
 
                 if (ImGui.BeginChild("##Changelog", changeLogSize, true))
@@ -51,13 +51,13 @@ namespace LMeter.Config
 
                 ImGui.PushStyleVar(ImGuiStyleVar.FrameRounding, 0);
                 Vector2 buttonSize = new((size.X - padX * 2 - padX * 2) / 3, 30 - padY * 2);
-                if (ImGui.Button("Github", buttonSize))
+            if (ImGui.Button("GitHub", buttonSize))
                 {
                     Utils.OpenUrl("https://github.com/lichie567/LMeter");
                 }
 
                 ImGui.SameLine();
-                if (ImGui.Button("Help", buttonSize))
+            if (ImGui.Button("說明", buttonSize))
                 {
                     Utils.OpenUrl("https://github.com/lichie567/LMeter/wiki/FAQ");
                 }

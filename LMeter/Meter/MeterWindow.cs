@@ -69,10 +69,10 @@ namespace LMeter.Meter
         public bool Enabled = true;
         public GeneralConfig GeneralConfig { get; set; } = new GeneralConfig();
         public HeaderConfig HeaderConfig { get; set; } = new HeaderConfig();
-        public TextListConfig<Encounter> HeaderTextConfig { get; set; } = new("Header Texts");
-        public TextListConfig<Encounter> FooterTextConfig { get; set; } = new("Footer Texts");
+        public TextListConfig<Encounter> HeaderTextConfig { get; set; } = new("標題列文字");
+        public TextListConfig<Encounter> FooterTextConfig { get; set; } = new("頁尾文字");
         public BarConfig BarConfig { get; set; } = new BarConfig();
-        public TextListConfig<Combatant> BarTextConfig { get; set; } = new("Bar Texts");
+        public TextListConfig<Combatant> BarTextConfig { get; set; } = new("長條文字");
         public BarColorsConfig BarColorsConfig { get; set; } = new BarColorsConfig();
         public VisibilityConfig VisibilityConfig { get; set; } = new VisibilityConfig();
 
@@ -110,13 +110,13 @@ namespace LMeter.Meter
                 case TextListConfig<Encounter> newPage:
                     if (this.HeaderTextConfig.Active)
                     {
-                        newPage.NameInternal = "Header Texts";
+            newPage.NameInternal = "標題列文字";
                         this.HeaderTextConfig = newPage;
                     }
 
                     if (this.FooterTextConfig.Active)
                     {
-                        newPage.NameInternal = "Footer Texts";
+            newPage.NameInternal = "頁尾文字";
                         this.FooterTextConfig = newPage;
                     }
 
@@ -136,7 +136,7 @@ namespace LMeter.Meter
             }
         }
 
-        public static MeterWindow GetDefaultMeter(MeterDataType type, string name = "Default")
+        public static MeterWindow GetDefaultMeter(MeterDataType type, string name = "預設")
         {
             MeterWindow? newMeter = type switch
             {
@@ -756,7 +756,7 @@ namespace LMeter.Meter
                     ImGui.SetKeyboardFocusHere(0);
                 }
 
-                if (ImGui.Selectable("Current Data"))
+            if (ImGui.Selectable("目前資料"))
                 {
                     selected = true;
                 }
@@ -777,13 +777,13 @@ namespace LMeter.Meter
                 }
 
                 ImGui.Separator();
-                if (ImGui.Selectable("Clear Data"))
+            if (ImGui.Selectable("清除資料"))
                 {
                     Singletons.Get<PluginManager>().Clear();
                     selected = true;
                 }
 
-                if (ImGui.Selectable("Configure"))
+            if (ImGui.Selectable("設定"))
                 {
                     Singletons.Get<PluginManager>().ConfigureMeter(this);
                     selected = true;

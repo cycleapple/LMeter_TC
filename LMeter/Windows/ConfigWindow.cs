@@ -119,14 +119,14 @@ namespace LMeter.Windows
                     string.Empty,
                     FontAwesomeIcon.LongArrowAltLeft,
                     () => m_back = true,
-                    "Back",
+                    "返回",
                     buttonsize
                 );
 
                 ImGui.SameLine();
                 if (m_configStack.Count > 2)
                 {
-                    DrawHelpers.DrawButton(string.Empty, FontAwesomeIcon.Home, () => m_home = true, "Home", buttonsize);
+            DrawHelpers.DrawButton(string.Empty, FontAwesomeIcon.Home, () => m_home = true, "首頁", buttonsize);
                     ImGui.SameLine();
                 }
                 else
@@ -142,7 +142,7 @@ namespace LMeter.Windows
                     string.Empty,
                     FontAwesomeIcon.UndoAlt,
                     () => Reset(openPage),
-                    $"Reset {openPage?.Name} to Defaults",
+                $"將 {openPage?.Name} 重設為預設值",
                     buttonsize
                 );
 
@@ -155,7 +155,7 @@ namespace LMeter.Windows
 
                 if (ImGui.IsItemHovered())
                 {
-                    ImGui.SetTooltip("Rename");
+                ImGui.SetTooltip("重新命名");
                 }
 
                 ImGui.PopItemWidth();
@@ -165,7 +165,7 @@ namespace LMeter.Windows
                     string.Empty,
                     FontAwesomeIcon.Upload,
                     () => Export(openPage),
-                    $"Export {openPage?.Name}",
+                $"匯出 {openPage?.Name}",
                     buttonsize
                 );
 
@@ -174,7 +174,7 @@ namespace LMeter.Windows
                     string.Empty,
                     FontAwesomeIcon.Download,
                     () => Import(),
-                    $"Import {openPage?.Name}",
+                $"匯入 {openPage?.Name}",
                     buttonsize
                 );
             }

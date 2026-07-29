@@ -10,7 +10,7 @@ namespace LMeter.Config
         [JsonIgnore]
         public bool Active { get; set; }
 
-        public string Name => "Colors";
+        public string Name => "顏色";
 
         public IConfigPage GetDefault() => new BarColorsConfig();
 
@@ -140,7 +140,7 @@ namespace LMeter.Config
                 DrawHelpers.DrawColorSelector("ACN", this.ACNColor);
 
                 ImGui.NewLine();
-                DrawHelpers.DrawColorSelector("Limit Break", this.UKNColor);
+            DrawHelpers.DrawColorSelector("極限技", this.UKNColor);
             }
 
             ImGui.EndChild();

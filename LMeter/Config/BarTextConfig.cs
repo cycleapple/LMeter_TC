@@ -17,7 +17,7 @@ namespace LMeter.Config
     {
         private readonly string _name;
 
-        public TextListConfig(string name = "Texts")
+        public TextListConfig(string name = "文字")
         {
             _name = name;
             NameInternal = name;
@@ -67,11 +67,11 @@ namespace LMeter.Config
                     float actionsWidth = buttonSize.X * 3 + ImGui.GetStyle().ItemSpacing.X * 2;
                     float anchorComboWidth = 100f;
 
-                    ImGui.TableSetupColumn("Enabled", ImGuiTableColumnFlags.WidthFixed, 46, 0);
-                    ImGui.TableSetupColumn("Text Name", ImGuiTableColumnFlags.WidthStretch, 0, 1);
-                    ImGui.TableSetupColumn("Anchored To", ImGuiTableColumnFlags.WidthFixed, anchorComboWidth, 2);
-                    ImGui.TableSetupColumn("Anchor Point", ImGuiTableColumnFlags.WidthFixed, anchorComboWidth, 3);
-                    ImGui.TableSetupColumn("Actions", ImGuiTableColumnFlags.WidthFixed, actionsWidth, 4);
+                ImGui.TableSetupColumn("啟用", ImGuiTableColumnFlags.WidthFixed, 46, 0);
+                ImGui.TableSetupColumn("文字名稱", ImGuiTableColumnFlags.WidthStretch, 0, 1);
+                ImGui.TableSetupColumn("錨定至", ImGuiTableColumnFlags.WidthFixed, anchorComboWidth, 2);
+                ImGui.TableSetupColumn("錨點", ImGuiTableColumnFlags.WidthFixed, anchorComboWidth, 3);
+                ImGui.TableSetupColumn("操作", ImGuiTableColumnFlags.WidthFixed, actionsWidth, 4);
 
                     ImGui.TableSetupScrollFreeze(0, 1);
                     ImGui.TableHeadersRow();
@@ -97,7 +97,7 @@ namespace LMeter.Config
 
                         if (ImGui.TableSetColumnIndex(2))
                         {
-                            string[] anchorOptions = new[] { "Bar" }.Concat(this.Texts.Select(x => x.Name)).ToArray();
+                            string[] anchorOptions = new[] { "長條" }.Concat(this.Texts.Select(x => x.Name)).ToArray();
                             ImGui.PushItemWidth(anchorComboWidth);
                             ImGui.SetCursorPosY(ImGui.GetCursorPosY() + 1f);
                             if (
@@ -127,7 +127,7 @@ namespace LMeter.Config
                                 {
                                     text.AnchorParent = 0;
                                     DrawHelpers.DrawNotification(
-                                        $"Cannot Anchor to {this.Texts[parent - 1].Name}, anchor chain must eventually anchor to Bar.",
+                                        $"無法錨定至 {this.Texts[parent - 1].Name}，錨定鏈最終必須連回長條。",
                                         NotificationType.Error
                                     );
                                 }
@@ -157,7 +157,7 @@ namespace LMeter.Config
                                 string.Empty,
                                 FontAwesomeIcon.Pen,
                                 () => SelectText(i),
-                                "Edit",
+                                "編輯",
                                 buttonSize
                             );
 
@@ -166,7 +166,7 @@ namespace LMeter.Config
                                 string.Empty,
                                 FontAwesomeIcon.Upload,
                                 () => ExportText(text),
-                                "Export",
+                                "匯出",
                                 buttonSize
                             );
 
@@ -175,7 +175,7 @@ namespace LMeter.Config
                                 string.Empty,
                                 FontAwesomeIcon.Trash,
                                 () => DeleteText(i),
-                                "Delete",
+                                "刪除",
                                 buttonSize
                             );
                         }
@@ -187,7 +187,7 @@ namespace LMeter.Config
                     {
                         ImGui.SetCursorPosY(ImGui.GetCursorPosY() + 1f);
                         ImGui.PushItemWidth(ImGui.GetColumnWidth());
-                        ImGui.InputTextWithHint($"##NewTextInput", "New Text Name", ref m_textInput, 10000);
+            ImGui.InputTextWithHint($"##NewTextInput", "新文字名稱", ref m_textInput, 10000);
                         ImGui.PopItemWidth();
                     }
 
@@ -198,7 +198,7 @@ namespace LMeter.Config
                             string.Empty,
                             FontAwesomeIcon.Plus,
                             () => AddText(m_textInput),
-                            "Create Text",
+                    "建立文字",
                             buttonSize
                         );
 
@@ -207,7 +207,7 @@ namespace LMeter.Config
                             string.Empty,
                             FontAwesomeIcon.Download,
                             () => ImportText(),
-                            "Import Text",
+                    "匯入文字",
                             buttonSize
                         );
                     }
@@ -217,7 +217,7 @@ namespace LMeter.Config
 
                 if (this.Texts.Count != 0)
                 {
-                    ImGui.Text($"Edit {this.Texts[m_selectedIndex].Name}");
+            ImGui.Text($"編輯 {this.Texts[m_selectedIndex].Name}");
                     if (
                         ImGui.BeginChild(
                             $"##SelectedText_Edit",
@@ -265,7 +265,7 @@ namespace LMeter.Config
             }
             catch
             {
-                DrawHelpers.DrawNotification("Failed to read from clipboard!", NotificationType.Error);
+                DrawHelpers.DrawNotification("無法讀取剪貼簿！", NotificationType.Error);
                 return;
             }
 
@@ -277,7 +277,7 @@ namespace LMeter.Config
             }
             else
             {
-                DrawHelpers.DrawNotification("Failed to Import Element!", NotificationType.Error);
+                DrawHelpers.DrawNotification("匯入元素失敗！", NotificationType.Error);
             }
 
             m_textInput = string.Empty;
@@ -295,7 +295,7 @@ namespace LMeter.Config
                 if (text.AnchorParent - 1 == index)
                 {
                     DrawHelpers.DrawNotification(
-                        $"Cannot delete {this.Texts[index].Name} while other texts are anchored to it.",
+                    $"其他文字仍錨定至 {this.Texts[index].Name}，因此無法刪除。",
                         NotificationType.Error
                     );
                     return;
@@ -317,7 +317,7 @@ namespace LMeter.Config
 
     public class Text
     {
-        public Text(string name = "Text")
+        public Text(string name = "文字")
         {
             Name = name;
         }
@@ -383,8 +383,8 @@ namespace LMeter.Config
         public void DrawConfig<T>()
             where T : IActData<T>
         {
-            ImGui.InputText("Text Name", ref this.Name, 512);
-            ImGui.InputText("Text Format", ref this.TextFormat, 512);
+            ImGui.InputText("文字名稱", ref this.Name, 512);
+            ImGui.InputText("文字格式", ref this.TextFormat, 512);
 
             if (ImGui.IsItemHovered())
             {
@@ -398,63 +398,63 @@ namespace LMeter.Config
                 this.TextFormat += selectedTag;
             }
 
-            DrawHelpers.DrawFontSelector("Font##Name", ref this.FontKey, ref this.FontId);
-            ImGui.DragFloat2("Text Offset", ref this.TextOffset);
-            ImGui.Checkbox("Fixed Text Width", ref this.FixedTextWidth);
+            DrawHelpers.DrawFontSelector("字型##Name", ref this.FontKey, ref this.FontId);
+            ImGui.DragFloat2("文字偏移", ref this.TextOffset);
+            ImGui.Checkbox("固定文字寬度", ref this.FixedTextWidth);
             if (this.FixedTextWidth)
             {
                 DrawHelpers.DrawNestIndicator(1);
-                ImGui.DragFloat("Text Width", ref this.TextWidth, .1f, 0f, 10000f);
+                ImGui.DragFloat("文字寬度", ref this.TextWidth, .1f, 0f, 10000f);
                 DrawHelpers.DrawNestIndicator(1);
                 ImGui.Combo(
-                    "Text Alignment",
+                    "文字對齊",
                     ref Unsafe.As<DrawAnchor, int>(ref this.TextAlignment),
                     Utils.AnchorOptions,
                     Utils.AnchorOptions.Length
                 );
                 DrawHelpers.DrawNestIndicator(1);
-                ImGui.Checkbox("Add ellipsis (...) to truncated text", ref this.UseEllipsis);
+                ImGui.Checkbox("截斷文字後加上省略號（...）", ref this.UseEllipsis);
             }
 
-            ImGui.Checkbox("Use Thousands Separator for Numbers", ref this.ThousandsSeparators);
-            ImGui.Checkbox("Hide Tag Values if Zero", ref this.EmptyIfZero);
+            ImGui.Checkbox("數字使用千位分隔符號", ref this.ThousandsSeparators);
+            ImGui.Checkbox("標籤值為零時隱藏", ref this.EmptyIfZero);
             if (this.AnchorParent != 0)
             {
-                ImGui.Checkbox("Show Separator", ref this.ShowSeparator);
+                ImGui.Checkbox("顯示分隔線", ref this.ShowSeparator);
                 if (this.ShowSeparator)
                 {
                     DrawHelpers.DrawNestIndicator(1);
-                    ImGui.DragFloat("Height (% of Bar height)", ref this.SeparatorHeight, .1f, 0f, 1f);
+                    ImGui.DragFloat("高度（長條高度比例）", ref this.SeparatorHeight, .1f, 0f, 1f);
                     DrawHelpers.DrawNestIndicator(1);
-                    ImGui.DragFloat("Width", ref this.SeparatorWidth, .1f, 0f, 100f);
+                    ImGui.DragFloat("寬度", ref this.SeparatorWidth, .1f, 0f, 100f);
                     DrawHelpers.DrawNestIndicator(1);
-                    ImGui.DragFloat2("Offset", ref this.SeparatorOffset);
+                    ImGui.DragFloat2("偏移", ref this.SeparatorOffset);
                     DrawHelpers.DrawNestIndicator(1);
-                    DrawHelpers.DrawColorSelector("Color", this.SeparatorColor);
+                    DrawHelpers.DrawColorSelector("顏色", this.SeparatorColor);
                 }
             }
 
             ImGui.NewLine();
-            ImGui.Checkbox("Use Job Color", ref this.TextJobColor);
+            ImGui.Checkbox("使用職業顏色", ref this.TextJobColor);
             if (!this.TextJobColor)
             {
                 DrawHelpers.DrawNestIndicator(1);
-                DrawHelpers.DrawColorSelector("Text Color", this.TextColor);
+                DrawHelpers.DrawColorSelector("文字顏色", this.TextColor);
             }
 
-            ImGui.Checkbox("Show Outline", ref this.ShowOutline);
+            ImGui.Checkbox("顯示外框", ref this.ShowOutline);
             if (this.ShowOutline)
             {
                 DrawHelpers.DrawNestIndicator(1);
-                DrawHelpers.DrawColorSelector("Outline Color", this.OutlineColor);
+                DrawHelpers.DrawColorSelector("外框顏色", this.OutlineColor);
             }
 
             ImGui.NewLine();
-            ImGui.Checkbox("Use Custom Background Color", ref this.UseBackground);
+            ImGui.Checkbox("使用自訂背景顏色", ref this.UseBackground);
             if (this.UseBackground)
             {
                 DrawHelpers.DrawNestIndicator(1);
-                DrawHelpers.DrawColorSelector("Background Color", this.BackgroundColor);
+                DrawHelpers.DrawColorSelector("背景顏色", this.BackgroundColor);
             }
         }
     }

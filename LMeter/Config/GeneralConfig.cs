@@ -10,7 +10,7 @@ namespace LMeter.Config
     public class GeneralConfig : IConfigPage
     {
         [JsonIgnore]
-        private static readonly string[] m_meterTypeOptions = Enum.GetNames<MeterDataType>();
+        private static readonly string[] m_meterTypeOptions = ["傷害", "治療", "承受傷害"];
 
         [JsonIgnore]
         public bool Preview = false;
@@ -18,7 +18,7 @@ namespace LMeter.Config
         [JsonIgnore]
         public bool Active { get; set; }
 
-        public string Name => "General";
+        public string Name => "一般";
         public Vector2 Position = Vector2.Zero;
         public Vector2 Size = new(ImGui.GetMainViewport().Size.Y * 16 / 90, ImGui.GetMainViewport().Size.Y / 10);
         public bool Lock = false;
@@ -40,42 +40,42 @@ namespace LMeter.Config
             if (ImGui.BeginChild($"##{this.Name}", new Vector2(size.X, size.Y), border))
             {
                 Vector2 screenSize = ImGui.GetMainViewport().Size;
-                ImGui.DragFloat2("Position", ref this.Position, 1, -screenSize.X / 2, screenSize.X / 2);
-                ImGui.DragFloat2("Size", ref this.Size, 1, 0, screenSize.Y);
-                ImGui.Checkbox("Lock", ref this.Lock);
-                ImGui.Checkbox("Click Through", ref this.ClickThrough);
-                ImGui.Checkbox("Preview", ref this.Preview);
+                ImGui.DragFloat2("位置", ref this.Position, 1, -screenSize.X / 2, screenSize.X / 2);
+                ImGui.DragFloat2("大小", ref this.Size, 1, 0, screenSize.Y);
+                ImGui.Checkbox("鎖定", ref this.Lock);
+                ImGui.Checkbox("允許點擊穿透", ref this.ClickThrough);
+                ImGui.Checkbox("預覽", ref this.Preview);
                 ImGui.NewLine();
 
-                DrawHelpers.DrawColorSelector("Background Color", this.BackgroundColor);
-                DrawHelpers.DrawRoundingOptions("Use Rounded Corners", 0, this.Rounding);
+                DrawHelpers.DrawColorSelector("背景顏色", this.BackgroundColor);
+                DrawHelpers.DrawRoundingOptions("使用圓角", 0, this.Rounding);
 
                 ImGui.NewLine();
-                ImGui.Checkbox("Show Border", ref this.ShowBorder);
+                ImGui.Checkbox("顯示邊框", ref this.ShowBorder);
                 if (this.ShowBorder)
                 {
                     DrawHelpers.DrawNestIndicator(1);
-                    ImGui.DragInt("Border Thickness", ref this.BorderThickness, 1, 1, 20);
+                    ImGui.DragInt("邊框粗細", ref this.BorderThickness, 1, 1, 20);
 
                     DrawHelpers.DrawNestIndicator(1);
-                    DrawHelpers.DrawColorSelector("Border Color", this.BorderColor);
+                    DrawHelpers.DrawColorSelector("邊框顏色", this.BorderColor);
 
                     DrawHelpers.DrawNestIndicator(1);
-                    DrawHelpers.DrawRoundingOptions("Use Rounded Corners##Border", 1, this.BorderRounding);
+                    DrawHelpers.DrawRoundingOptions("使用圓角##Border", 1, this.BorderRounding);
 
                     DrawHelpers.DrawNestIndicator(1);
-                    ImGui.Checkbox("Hide border around Header", ref this.BorderAroundBars);
+                    ImGui.Checkbox("隱藏標題列周圍的邊框", ref this.BorderAroundBars);
                 }
 
                 ImGui.NewLine();
                 ImGui.Combo(
-                    "Sort Type",
+                    "統計類型",
                     ref Unsafe.As<MeterDataType, int>(ref this.DataType),
                     m_meterTypeOptions,
                     m_meterTypeOptions.Length
                 );
 
-                ImGui.Checkbox("Return to Current Data when entering combat", ref this.ReturnToCurrent);
+                ImGui.Checkbox("進入戰鬥時返回目前資料", ref this.ReturnToCurrent);
             }
 
             ImGui.EndChild();

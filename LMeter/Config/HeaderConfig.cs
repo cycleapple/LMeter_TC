@@ -10,7 +10,7 @@ namespace LMeter.Config
         [JsonIgnore]
         public bool Active { get; set; }
 
-        public string Name => "Header/Footer";
+        public string Name => "標題列／頁尾";
 
         public bool ShowHeader = true;
         public int HeaderHeight = 25;
@@ -80,51 +80,51 @@ namespace LMeter.Config
         {
             if (ImGui.BeginChild($"##{this.Name}", size, border))
             {
-                ImGui.Checkbox("Show Header", ref this.ShowHeader);
+                ImGui.Checkbox("顯示標題列", ref this.ShowHeader);
                 if (this.ShowHeader)
                 {
                     DrawHelpers.DrawNestIndicator(1);
-                    ImGui.DragInt("Height##Header", ref this.HeaderHeight, 1, 0, 100);
+                    ImGui.DragInt("高度##Header", ref this.HeaderHeight, 1, 0, 100);
 
                     DrawHelpers.DrawNestIndicator(1);
-                    DrawHelpers.DrawColorSelector("Background Color##Header", this.BackgroundColor);
+                    DrawHelpers.DrawColorSelector("背景顏色##Header", this.BackgroundColor);
 
                     DrawHelpers.DrawNestIndicator(1);
-                    DrawHelpers.DrawRoundingOptions("Use Rounded Corners##Header", 1, this.Rounding);
+                    DrawHelpers.DrawRoundingOptions("使用圓角##Header", 1, this.Rounding);
 
                     DrawHelpers.DrawNestIndicator(1);
-                    ImGui.Checkbox("Show LMeter Version when Cleared", ref this.ShowVersion);
+                    ImGui.Checkbox("清除資料後顯示 LMeter 版本", ref this.ShowVersion);
                     if (this.ShowVersion)
                     {
                         DrawHelpers.DrawNestIndicator(2);
-                        ImGui.DragFloat2("Offset##Version", ref this.VersionOffset);
+                        ImGui.DragFloat2("偏移##Version", ref this.VersionOffset);
 
                         DrawHelpers.DrawNestIndicator(2);
-                        DrawHelpers.DrawFontSelector("Font##Version", ref this.VersionFontKey, ref this.VersionFontId);
+                        DrawHelpers.DrawFontSelector("字型##Version", ref this.VersionFontKey, ref this.VersionFontId);
 
                         DrawHelpers.DrawNestIndicator(2);
-                        DrawHelpers.DrawColorSelector("Text Color##Version", this.VersionColor);
+                        DrawHelpers.DrawColorSelector("文字顏色##Version", this.VersionColor);
 
                         DrawHelpers.DrawNestIndicator(2);
-                        ImGui.Checkbox("Show Outline##Version", ref this.VersionShowOutline);
+                        ImGui.Checkbox("顯示外框##Version", ref this.VersionShowOutline);
                         if (this.VersionShowOutline)
                         {
                             DrawHelpers.DrawNestIndicator(3);
-                            DrawHelpers.DrawColorSelector("Outline Color##Version", this.VersionOutlineColor);
+                            DrawHelpers.DrawColorSelector("外框顏色##Version", this.VersionOutlineColor);
                         }
                     }
 
                     ImGui.NewLine();
                 }
 
-                ImGui.Checkbox("Show Footer", ref this.ShowFooter);
+                ImGui.Checkbox("顯示頁尾", ref this.ShowFooter);
                 if (this.ShowFooter)
                 {
                     DrawHelpers.DrawNestIndicator(1);
-                    ImGui.DragInt("Height##Footer", ref this.FooterHeight, 1, 0, 100);
+                    ImGui.DragInt("高度##Footer", ref this.FooterHeight, 1, 0, 100);
 
                     DrawHelpers.DrawNestIndicator(1);
-                    DrawHelpers.DrawColorSelector("Background Color##Footer", this.FooterBackgroundColor);
+                    DrawHelpers.DrawColorSelector("背景顏色##Footer", this.FooterBackgroundColor);
                 }
 
                 ImGui.EndChild();

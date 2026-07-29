@@ -2,9 +2,9 @@
     <!-- Assembly Configuration -->
     <PropertyGroup>
         <AssemblyName>LMeter</AssemblyName>
-        <AssemblyVersion>1.13.0.2</AssemblyVersion>
-        <FileVersion>1.13.0.2</FileVersion>
-        <InformationalVersion>0.4.4.0.TC.API13.0.2</InformationalVersion>
+        <AssemblyVersion>1.13.0.3</AssemblyVersion>
+        <FileVersion>1.13.0.3</FileVersion>
+        <InformationalVersion>0.4.4.0.TC.API13.0.3</InformationalVersion>
     </PropertyGroup>
 
 	<!-- Build Configuration -->

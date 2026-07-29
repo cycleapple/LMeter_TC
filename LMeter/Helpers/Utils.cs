@@ -9,8 +9,8 @@ namespace LMeter.Helpers
 {
     public static class Utils
     {
-        public static readonly string[] AnchorOptions = Enum.GetNames<DrawAnchor>();
-        public static readonly string[] RoundingFlags = Enum.GetNames<RoundingFlag>();
+        public static readonly string[] AnchorOptions = ["中央", "左", "右", "上", "左上", "右上", "下", "左下", "右下"];
+        public static readonly string[] RoundingFlags = ["全部", "左側", "右側", "上方", "右上", "左上", "下方", "右下", "左下"];
 
         public static Vector2 GetAnchoredPosition(Vector2 position, Vector2 size, DrawAnchor anchor) =>
             anchor switch
@@ -128,9 +128,9 @@ namespace LMeter.Helpers
 
         public static string GetTagsTooltip()
         {
-            return $"Append the characters ':k' to a numeric tag to kilo-format it.\n"
-                + "Append a '.' and a number to limit the number of characters,\n"
-                + "or the number of decimals when used with numeric values.\n\nExamples:\n"
+            return $"在數值標籤後加上「:k」可使用千位縮寫格式。\n"
+                + "加上「.」與數字可限制文字字元數，\n"
+                + "用於數值時則限制小數位數。\n\n範例：\n"
                 + "[damagetotal]          =>    123,456\n"
                 + "[damagetotal:k]      =>           123k\n"
                 + "[damagetotal:k.1]  =>       123.4k\n\n"

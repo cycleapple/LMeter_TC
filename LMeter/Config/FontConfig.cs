@@ -19,7 +19,7 @@ namespace LMeter.Config
         [JsonIgnore]
         public bool Active { get; set; }
 
-        public string Name => "Fonts";
+        public string Name => "字型";
 
         [JsonIgnore]
         private static readonly string? m_fontPath = FontsManager.GetUserFontPath();
@@ -73,7 +73,7 @@ namespace LMeter.Config
                 {
                     float cursorY = ImGui.GetCursorPosY();
                     ImGui.SetCursorPosY(cursorY + 2f);
-                    ImGui.Text("Copy Font Folder Path to Clipboard: ");
+                    ImGui.Text("複製字型資料夾路徑：");
                     ImGui.SameLine();
 
                     Vector2 buttonSize = new(40, 0);
@@ -87,33 +87,33 @@ namespace LMeter.Config
                     );
 
                     string[] fontNames = m_fontPaths.Select(x => FontsManager.GetFontName(m_fontPath, x)).ToArray();
-                    ImGui.Combo("Font", ref m_selectedFont, fontNames, fontNames.Length);
+                    ImGui.Combo("字型", ref m_selectedFont, fontNames, fontNames.Length);
                     ImGui.SameLine();
                     DrawHelpers.DrawButton(
                         string.Empty,
                         FontAwesomeIcon.Sync,
                         () => RefreshFontList(),
-                        "Reload Font List",
+                        "重新載入字型清單",
                         buttonSize
                     );
 
-                    ImGui.Combo("Size", ref m_selectedSize, m_sizes, m_sizes.Length);
+                    ImGui.Combo("大小", ref m_selectedSize, m_sizes, m_sizes.Length);
                     ImGui.SameLine();
                     ImGui.SetCursorPosX(ImGui.GetCursorPosX() + 3f);
                     DrawHelpers.DrawButton(
                         string.Empty,
                         FontAwesomeIcon.Plus,
                         () => AddFont(m_selectedFont, m_selectedSize),
-                        "Add Font",
+                        "新增字型",
                         buttonSize
                     );
 
-                    ImGui.Checkbox("Chinese/Japanese", ref m_chinese);
+                    ImGui.Checkbox("中文／日文", ref m_chinese);
                     ImGui.SameLine();
-                    ImGui.Checkbox("Korean", ref m_korean);
+                    ImGui.Checkbox("韓文", ref m_korean);
                     ImGui.SameLine();
                     ImGui.SetCursorPosX(ImGui.GetCursorPosX() + 81f);
-                    ImGui.Text("Add System or Game Font");
+                    ImGui.Text("新增系統或遊戲字型");
                     ImGui.SameLine();
 
                     DrawHelpers.DrawButton(
@@ -124,7 +124,7 @@ namespace LMeter.Config
                         buttonSize
                     );
 
-                    ImGui.Text("Font List");
+                    ImGui.Text("字型清單");
 
                     ImGuiTableFlags tableFlags =
                         ImGuiTableFlags.RowBg
@@ -143,11 +143,11 @@ namespace LMeter.Config
                         )
                     )
                     {
-                        ImGui.TableSetupColumn("Name", ImGuiTableColumnFlags.WidthStretch, 0, 0);
-                        ImGui.TableSetupColumn("Size", ImGuiTableColumnFlags.WidthFixed, 40, 1);
-                        ImGui.TableSetupColumn("CN/JP", ImGuiTableColumnFlags.WidthFixed, 40, 2);
-                        ImGui.TableSetupColumn("KR", ImGuiTableColumnFlags.WidthFixed, 40, 3);
-                        ImGui.TableSetupColumn("Actions", ImGuiTableColumnFlags.WidthFixed, 45, 4);
+                        ImGui.TableSetupColumn("名稱", ImGuiTableColumnFlags.WidthStretch, 0, 0);
+                        ImGui.TableSetupColumn("大小", ImGuiTableColumnFlags.WidthFixed, 40, 1);
+                        ImGui.TableSetupColumn("中／日", ImGuiTableColumnFlags.WidthFixed, 40, 2);
+                        ImGui.TableSetupColumn("韓", ImGuiTableColumnFlags.WidthFixed, 40, 3);
+                        ImGui.TableSetupColumn("操作", ImGuiTableColumnFlags.WidthFixed, 45, 4);
 
                         ImGui.TableSetupScrollFreeze(0, 1);
                         ImGui.TableHeadersRow();
@@ -175,13 +175,13 @@ namespace LMeter.Config
                             if (ImGui.TableSetColumnIndex(2))
                             {
                                 ImGui.SetCursorPosY(ImGui.GetCursorPosY() + 3f);
-                                ImGui.Text(font.Chinese ? "Yes" : "No");
+                                ImGui.Text(font.Chinese ? "是" : "否");
                             }
 
                             if (ImGui.TableSetColumnIndex(3))
                             {
                                 ImGui.SetCursorPosY(ImGui.GetCursorPosY() + 3f);
-                                ImGui.Text(font.Korean ? "Yes" : "No");
+                                ImGui.Text(font.Korean ? "是" : "否");
                             }
 
                             if (ImGui.TableSetColumnIndex(4))
@@ -193,7 +193,7 @@ namespace LMeter.Config
                                         string.Empty,
                                         FontAwesomeIcon.Trash,
                                         () => RemoveFont(key),
-                                        "Remove Font",
+                                        "移除字型",
                                         new Vector2(45, 0)
                                     );
                                 }

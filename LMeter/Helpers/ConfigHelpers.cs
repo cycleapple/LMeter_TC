@@ -31,11 +31,11 @@ namespace LMeter.Helpers
             if (exportString is not null)
             {
                 ImGui.SetClipboardText(exportString);
-                DrawHelpers.DrawNotification("Export string copied to clipboard.");
+                DrawHelpers.DrawNotification("匯出字串已複製到剪貼簿。");
             }
             else
             {
-                DrawHelpers.DrawNotification("Failed to Export!", NotificationType.Error);
+                DrawHelpers.DrawNotification("匯出失敗！", NotificationType.Error);
             }
         }
 

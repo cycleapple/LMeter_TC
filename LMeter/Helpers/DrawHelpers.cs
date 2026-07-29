@@ -151,11 +151,11 @@ namespace LMeter.Helpers
             if (options.Enabled)
             {
                 DrawNestIndicator(depth + 1);
-                ImGui.DragFloat($"Roundness##{label}", ref options.Rounding, 0.1f, 1, 50);
+                ImGui.DragFloat($"圓角程度##{label}", ref options.Rounding, 0.1f, 1, 50);
 
                 DrawNestIndicator(depth + 1);
                 ImGui.Combo(
-                    $"Rounding Type##{label}",
+                    $"圓角位置##{label}",
                     ref Unsafe.As<RoundingFlag, int>(ref options.Flag),
                     Utils.RoundingFlags,
                     Utils.RoundingFlags.Length
@@ -317,7 +317,7 @@ namespace LMeter.Helpers
         {
             string? selectedTag = null;
 
-            if (ImGui.Button("Tags"))
+            if (ImGui.Button("標籤"))
             {
                 ImGui.OpenPopup("LMeter_TextTagsPopup");
             }

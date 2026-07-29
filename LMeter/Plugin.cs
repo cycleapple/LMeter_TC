@@ -97,9 +97,9 @@ namespace LMeter
             // Create profile on first load
             if (config.FirstLoad && config.MeterList.Meters.Count == 0)
             {
-                config.MeterList.Meters.Add(MeterWindow.GetDefaultMeter(MeterDataType.Damage, "Dps Meter"));
+            config.MeterList.Meters.Add(MeterWindow.GetDefaultMeter(MeterDataType.Damage, "傷害統計"));
 
-                MeterWindow hps = MeterWindow.GetDefaultMeter(MeterDataType.Healing, "Hps Meter");
+            MeterWindow hps = MeterWindow.GetDefaultMeter(MeterDataType.Healing, "治療統計");
                 hps.Enabled = false;
                 config.MeterList.Meters.Add(hps);
             }
